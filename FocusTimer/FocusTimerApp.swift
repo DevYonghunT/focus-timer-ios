@@ -10,7 +10,6 @@ struct FocusTimerApp: App {
     @StateObject private var timerVM = TimerViewModel()
     @StateObject private var statsVM = StatisticsViewModel()
     @StateObject private var settingsVM = SettingsViewModel()
-    private let storeService = StoreService.shared
 
     init() {
         // 알림 권한 요청
@@ -26,7 +25,6 @@ struct FocusTimerApp: App {
                 .environmentObject(timerVM)
                 .environmentObject(statsVM)
                 .environmentObject(settingsVM)
-                .environmentObject(storeService)
                 .preferredColorScheme(.dark)
         }
         .onChange(of: scenePhase) { _, newPhase in

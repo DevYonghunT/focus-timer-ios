@@ -1,13 +1,11 @@
 // SettingsViewModel.swift
-// 설정 뷰모델 — 타이머 설정값 및 프리미엄 상태 관리
+// 설정 뷰모델 — 타이머 설정값 관리 (모든 기능 무료 해금)
 
 import Foundation
-import Combine
 
 /// 설정 뷰모델
 @MainActor
 final class SettingsViewModel: ObservableObject {
-    private var cancellables = Set<AnyCancellable>()
     // MARK: - UserDefaults 키
 
     private enum Keys {
@@ -15,7 +13,6 @@ final class SettingsViewModel: ObservableObject {
         static let shortBreakMinutes = "settings.shortBreakMinutes"
         static let longBreakMinutes = "settings.longBreakMinutes"
         static let longBreakInterval = "settings.longBreakInterval"
-        static let isPremium = "settings.isPremium"
         static let autoStartBreak = "settings.autoStartBreak"
         static let soundEnabled = "settings.soundEnabled"
     }
@@ -47,9 +44,8 @@ final class SettingsViewModel: ObservableObject {
         didSet { UserDefaults.standard.set(longBreakInterval, forKey: Keys.longBreakInterval) }
     }
 
-    @Published var isPremium: Bool {
-        didSet { UserDefaults.standard.set(isPremium, forKey: Keys.isPremium) }
-    }
+    /// 모든 기능 무료 해금 — 항상 true
+    let isPremium: Bool = true
 
     @Published var autoStartBreak: Bool {
         didSet { UserDefaults.standard.set(autoStartBreak, forKey: Keys.autoStartBreak) }
@@ -70,7 +66,6 @@ final class SettingsViewModel: ObservableObject {
             Keys.shortBreakMinutes: Defaults.shortBreakMinutes,
             Keys.longBreakMinutes: Defaults.longBreakMinutes,
             Keys.longBreakInterval: Defaults.longBreakInterval,
-            Keys.isPremium: false,
             Keys.autoStartBreak: false,
             Keys.soundEnabled: true,
         ])
@@ -79,17 +74,8 @@ final class SettingsViewModel: ObservableObject {
         self.shortBreakMinutes = defaults.integer(forKey: Keys.shortBreakMinutes)
         self.longBreakMinutes = defaults.integer(forKey: Keys.longBreakMinutes)
         self.longBreakInterval = defaults.integer(forKey: Keys.longBreakInterval)
-        self.isPremium = defaults.bool(forKey: Keys.isPremium)
         self.autoStartBreak = defaults.bool(forKey: Keys.autoStartBreak)
         self.soundEnabled = defaults.bool(forKey: Keys.soundEnabled)
-
-        // StoreService의 구독 상태를 isPremium에 동기화 (동기적 설정)
-        StoreService.shared.$isPremiumActive
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] isActive in
-                self?.isPremium = isActive
-            }
-            .store(in: &cancellables)
     }
 
     /// 기본값으로 초기화
@@ -125,6 +111,6 @@ final class SettingsViewModel: ObservableObject {
     }
 
     static func loadIsPremium() -> Bool {
-        return UserDefaults.standard.bool(forKey: Keys.isPremium)
+        return true
     }
 }

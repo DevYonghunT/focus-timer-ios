@@ -29,10 +29,18 @@
 		T1A00005000000000000005 /* StatisticsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T1F00005000000000000005 /* StatisticsViewModelTests.swift */; };
 		T1A00006000000000000006 /* IntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T1F00006000000000000006 /* IntegrationTests.swift */; };
 		EEEE000100000001EEEEEEEE /* StoreServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEE000200000002EEEEEEEE /* StoreServiceTests.swift */; };
+		UI000001 /* ScreenshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = UI000002; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		T1P00001000000000000001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E822EFB25834E16B68AFC9E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FDA184421D7F4C83B5F85C13;
+			remoteInfo = FocusTimer;
+		};
+		UI000014 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6E822EFB25834E16B68AFC9E /* Project object */;
 			proxyType = 1;
@@ -66,6 +74,8 @@
 		T1F00005000000000000005 /* StatisticsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FocusTimerTests/StatisticsViewModelTests.swift"; sourceTree = SOURCE_ROOT; };
 		T1F00006000000000000006 /* IntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FocusTimerTests/IntegrationTests.swift"; sourceTree = SOURCE_ROOT; };
 		EEEE000200000002EEEEEEEE /* StoreServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FocusTimerTests/StoreServiceTests.swift"; sourceTree = SOURCE_ROOT; };
+		UI000002 /* ScreenshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotTests.swift; sourceTree = "<group>"; };
+		UI000003 /* FocusTimerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FocusTimerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		T1R00001000000000000001 /* FocusTimerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FocusTimerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -78,6 +88,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		T1W00001000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		UI000012 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -97,6 +114,7 @@
 				8A0E588405D54A30AD053B3C /* Views */,
 				DDDD000100000001DDDDDDDD /* Services */,
 				T1G00001000000000000001 /* FocusTimerTests */,
+				UI000004 /* FocusTimerUITests */,
 				3BE180AEA4BD4AC9A192CC7D /* Assets.xcassets */,
 				40FCD69172444596834EA862 /* Info.plist */,
 				960906B7CCCC0002CCCCCCCC /* PrivacyInfo.xcprivacy */,
@@ -148,6 +166,7 @@
 			children = (
 				DBC67B9971D44ED6A5A72990 /* FocusTimer.app */,
 				T1R00001000000000000001 /* FocusTimerTests.xctest */,
+				UI000003 /* FocusTimerUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -164,6 +183,14 @@
 				EEEE000200000002EEEEEEEE /* StoreServiceTests.swift */,
 			);
 			name = FocusTimerTests;
+			sourceTree = "<group>";
+		};
+		UI000004 /* FocusTimerUITests */ = {
+			isa = PBXGroup;
+			children = (
+				UI000002 /* ScreenshotTests.swift */,
+			);
+			path = FocusTimerUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -203,6 +230,23 @@
 			productReference = T1R00001000000000000001 /* FocusTimerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		UI000010 /* FocusTimerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = UI000020;
+			buildPhases = (
+				UI000011 /* Sources */,
+				UI000012 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				UI000013 /* PBXTargetDependency */,
+			);
+			name = FocusTimerUITests;
+			productName = FocusTimerUITests;
+			productReference = UI000003 /* FocusTimerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -228,6 +272,7 @@
 			targets = (
 				FDA184421D7F4C83B5F85C13 /* FocusTimer */,
 				T1T00001000000000000001 /* FocusTimerTests */,
+				UI000010 /* FocusTimerUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -279,6 +324,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		UI000011 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				UI000001 /* ScreenshotTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -286,6 +339,11 @@
 			isa = PBXTargetDependency;
 			target = FDA184421D7F4C83B5F85C13 /* FocusTimer */;
 			targetProxy = T1P00001000000000000001 /* PBXContainerItemProxy */;
+		};
+		UI000013 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FDA184421D7F4C83B5F85C13 /* FocusTimer */;
+			targetProxy = UI000014 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -449,6 +507,42 @@
 			};
 			name = Release;
 		};
+		UI000021 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.teamentangle.focustimer.uitests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_TARGET_NAME = FocusTimer;
+			};
+			name = Debug;
+		};
+		UI000022 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.teamentangle.focustimer.uitests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_TARGET_NAME = FocusTimer;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -475,6 +569,15 @@
 			buildConfigurations = (
 				T1C00001000000000000001 /* Debug */,
 				T1C00002000000000000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		UI000020 /* Build configuration list for PBXNativeTarget "FocusTimerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				UI000021 /* Debug */,
+				UI000022 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

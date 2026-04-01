@@ -1,12 +1,11 @@
 // SettingsView.swift
-// 설정 뷰 — 타이머 설정, 프리미엄 상태, 데이터 관리
+// 설정 뷰 — 타이머 설정, 데이터 관리 (모든 기능 무료 해금)
 
 import SwiftUI
 
 struct SettingsView: View {
     @EnvironmentObject var settingsVM: SettingsViewModel
     @EnvironmentObject var timerVM: TimerViewModel
-    @EnvironmentObject var storeService: StoreService
     @State private var showResetAlert = false
 
     var body: some View {
@@ -18,7 +17,6 @@ struct SettingsView: View {
                 List {
                     timerSettingsSection
                     generalSection
-                    premiumSection
                     dataSection
                     aboutSection
                 }
@@ -49,8 +47,7 @@ struct SettingsView: View {
                 title: "집중 시간",
                 value: $settingsVM.focusMinutes,
                 range: 1...120,
-                unit: "분",
-                isPremiumRequired: !settingsVM.isPremium && settingsVM.focusMinutes != 25
+                unit: "분"
             )
 
             // 짧은 휴식
@@ -58,8 +55,7 @@ struct SettingsView: View {
                 title: "짧은 휴식",
                 value: $settingsVM.shortBreakMinutes,
                 range: 1...30,
-                unit: "분",
-                isPremiumRequired: !settingsVM.isPremium && settingsVM.shortBreakMinutes != 5
+                unit: "분"
             )
 
             // 긴 휴식
@@ -67,8 +63,7 @@ struct SettingsView: View {
                 title: "긴 휴식",
                 value: $settingsVM.longBreakMinutes,
                 range: 1...60,
-                unit: "분",
-                isPremiumRequired: !settingsVM.isPremium && settingsVM.longBreakMinutes != 15
+                unit: "분"
             )
 
             // 긴 휴식 간격
@@ -76,8 +71,7 @@ struct SettingsView: View {
                 title: "긴 휴식 간격",
                 value: $settingsVM.longBreakInterval,
                 range: 2...10,
-                unit: "세션",
-                isPremiumRequired: false
+                unit: "세션"
             )
         } header: {
             Text("타이머")
@@ -100,99 +94,6 @@ struct SettingsView: View {
                 .foregroundColor(AppTheme.secondaryText)
         }
         .listRowBackground(AppTheme.surface)
-    }
-
-    // MARK: - 프리미엄 섹션
-
-    private var premiumSection: some View {
-        Section {
-            if settingsVM.isPremium {
-                HStack {
-                    Label("프리미엄 활성화됨", systemImage: "crown.fill")
-                        .foregroundColor(AppTheme.accent)
-                    Spacer()
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundColor(AppTheme.success)
-                }
-            } else {
-                VStack(alignment: .leading, spacing: 8) {
-                    HStack {
-                        Image(systemName: "crown.fill")
-                            .foregroundColor(AppTheme.accent)
-                        Text("프리미엄으로 업그레이드")
-                            .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(.white)
-                    }
-
-                    VStack(alignment: .leading, spacing: 4) {
-                        premiumFeatureRow("커스텀 타이머 시간 설정")
-                        premiumFeatureRow("주간/월간 상세 통계")
-                        premiumFeatureRow("추가 테마 컬러")
-                    }
-                    .padding(.top, 4)
-
-                    // 구매 버튼
-                    Button {
-                        Task {
-                            await storeService.purchasePremium()
-                        }
-                    } label: {
-                        HStack {
-                            if storeService.isPurchasing {
-                                ProgressView()
-                                    .tint(.white)
-                            } else {
-                                Text(premiumPriceText)
-                                    .font(.system(size: 15, weight: .bold))
-                            }
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 12)
-                        .background(AppTheme.accent)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                    }
-                    .disabled(storeService.isPurchasing || storeService.premiumProduct == nil)
-                    .padding(.top, 8)
-
-                    // 구매 복원
-                    Button {
-                        Task {
-                            await storeService.restorePurchases()
-                        }
-                    } label: {
-                        Text("이전 구매 복원")
-                            .font(.system(size: 13))
-                            .foregroundColor(AppTheme.secondaryText)
-                            .frame(maxWidth: .infinity)
-                    }
-                    .padding(.top, 4)
-                }
-            }
-        } header: {
-            Text("프리미엄")
-                .foregroundColor(AppTheme.secondaryText)
-        }
-        .listRowBackground(AppTheme.surface)
-    }
-
-    /// 프리미엄 가격 텍스트 (상품 로드 전에는 기본값 표시)
-    private var premiumPriceText: String {
-        if let product = storeService.premiumProduct {
-            return "프리미엄 구독 — \(product.displayPrice)/월"
-        }
-        return "프리미엄 구독"
-    }
-
-    private func premiumFeatureRow(_ text: String) -> some View {
-        HStack(spacing: 6) {
-            Image(systemName: "checkmark")
-                .font(.system(size: 11, weight: .bold))
-                .foregroundColor(AppTheme.accent)
-            Text(text)
-                .font(.system(size: 13))
-                .foregroundColor(AppTheme.secondaryText)
-        }
     }
 
     // MARK: - 데이터 관리 섹션
@@ -241,7 +142,6 @@ struct StepperRow: View {
     @Binding var value: Int
     let range: ClosedRange<Int>
     let unit: String
-    let isPremiumRequired: Bool
 
     var body: some View {
         HStack {
@@ -250,12 +150,6 @@ struct StepperRow: View {
 
             Spacer()
 
-            if isPremiumRequired {
-                Image(systemName: "lock.fill")
-                    .font(.system(size: 12))
-                    .foregroundColor(AppTheme.secondaryText)
-            }
-
             Text("\(value) \(unit)")
                 .foregroundColor(AppTheme.accent)
                 .font(.system(size: 15, weight: .medium))
@@ -263,7 +157,6 @@ struct StepperRow: View {
             Stepper("", value: $value, in: range)
                 .labelsHidden()
                 .tint(AppTheme.accent)
-                .disabled(isPremiumRequired)
         }
     }
 }

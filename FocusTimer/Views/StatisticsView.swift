@@ -6,7 +6,6 @@ import Charts
 
 struct StatisticsView: View {
     @EnvironmentObject var statsVM: StatisticsViewModel
-    @EnvironmentObject var settingsVM: SettingsViewModel
 
     var body: some View {
         NavigationStack {
@@ -38,20 +37,11 @@ struct StatisticsView: View {
         HStack(spacing: 0) {
             ForEach(StatsPeriod.allCases, id: \.self) { period in
                 let isSelected = statsVM.selectedPeriod == period
-                // 프리미엄 잠금 여부
-                let isLocked = !settingsVM.isPremium && period != .daily
 
                 Button(action: {
-                    guard !isLocked else { return }
                     statsVM.changePeriod(to: period)
                 }) {
-                    HStack(spacing: 4) {
-                        Text(period.rawValue)
-                        if isLocked {
-                            Image(systemName: "lock.fill")
-                                .font(.system(size: 10))
-                        }
-                    }
+                    Text(period.rawValue)
                     .font(.system(size: 14, weight: isSelected ? .bold : .medium))
                     .foregroundColor(isSelected ? .white : AppTheme.secondaryText)
                     .frame(maxWidth: .infinity)
@@ -61,8 +51,6 @@ struct StatisticsView: View {
                             .fill(isSelected ? AppTheme.accent : Color.clear)
                     )
                 }
-                .disabled(isLocked)
-                .opacity(isLocked ? 0.5 : 1.0)
             }
         }
         .padding(4)
